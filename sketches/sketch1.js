@@ -1,4 +1,5 @@
 // Instance-mode sketch registered as 'sk1'
+// test commit
 registerSketch('sk1', function (p) {
   let horizon;
 
