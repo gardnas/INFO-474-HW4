@@ -25,6 +25,19 @@ registerSketch('sk2', function (p) {
     p.textAlign(p.LEFT, p.TOP);
     p.text("Hour: " + hour, 100, 100);
 
+    let minute = p.minute();
+    p.fill(255);
+    p.noStroke();
+    p.textSize(28);
+    p.textAlign(p.LEFT, p.TOP);
+    p.text("Minute: " + minute, 100, 200);
+
+    let second = p.second();
+    p.fill(255);
+    p.noStroke();
+    p.textSize(28);
+    p.textAlign(p.LEFT, p.TOP);
+    p.text("Seconds: " + second, 100, 300);
     
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
