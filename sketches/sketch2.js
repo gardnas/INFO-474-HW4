@@ -16,6 +16,15 @@ registerSketch('sk2', function (p) {
     p.strokeWeight(20);
     p.stroke(120, 80, 40);
     p.rect(50, 50, 700, 500);
+
+    // hours:
+    let hour = p.hour();
+    p.fill(255);
+    p.noStroke();
+    p.textSize(28);
+    p.textAlign(p.LEFT, p.TOP);
+    p.text("Hour: " + hour, 100, 100);
+
     
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
