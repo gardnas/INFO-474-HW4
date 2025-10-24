@@ -2,6 +2,7 @@
 registerSketch('sk2', function (p) {
   p.setup = function () {
     p.createCanvas(800, 800);
+    p.textFont('Schoolbell'); 
   };
   p.draw = function () {
     p.background(220);
@@ -9,13 +10,13 @@ registerSketch('sk2', function (p) {
     // chalkboard
     p.fill(6, 64, 43);
     p.noStroke();
-    p.rect(50,50, 700, 500);
+    p.rect(50,50, 700, 350);
 
     // brown border
     p.noFill();
     p.strokeWeight(20);
     p.stroke(120, 80, 40);
-    p.rect(50, 50, 700, 500);
+    p.rect(50, 50, 700, 350);
 
     // hours:
     let hour = p.hour();
