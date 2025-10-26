@@ -14,6 +14,7 @@ registerSketch('sk4', function (p) {
     // Get current time
     const currentHour = p.hour(); // 0-23
     const currentMinute = p.minute(); // 0-59
+    const currentSecond = p.second(); // 0-59
     
     // hours section
     const hoursStartX = centerX - 250;
@@ -150,11 +151,31 @@ registerSketch('sk4', function (p) {
     p.textAlign(p.CENTER, p.BOTTOM);
     p.text("SECONDS", secondsX, secondsY - secondsBubbleSize / 2 - 20);
     
-    // one seconds bubble
+    // draw in area based on num of seconds passed
+    const secondsAngle = p.map(currentSecond, 0, 60, 0, p.TWO_PI);
+    
+    // pie slice of area filled in 
+    // circle bvecause similar to how I fill in a bubble on multiple choice
+    p.fill(0);
+    p.noStroke();
+    p.arc(secondsX, secondsY, secondsBubbleSize, secondsBubbleSize, -p.HALF_PI, -p.HALF_PI + secondsAngle, p.PIE);
+    
+    // Outer circle border
     p.noFill();
     p.stroke(0);
     p.strokeWeight(3);
     p.circle(secondsX, secondsY, secondsBubbleSize);
+    
+    // Display second number in center with inverted color only on filled area
+    //blend mode to invert colors where filled
+    p.push();
+    p.blendMode(p.DIFFERENCE);
+    p.fill(255);
+    p.noStroke();
+    p.textSize(32);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text(currentSecond, secondsX, secondsY);
+    p.pop();
     
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
