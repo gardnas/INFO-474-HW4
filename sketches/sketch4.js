@@ -70,6 +70,23 @@ registerSketch('sk4', function (p) {
         p.text(minuteNum, x, y);
       }
     }
+
+    // seconds section
+    const secondsBubbleSize = 150;
+    const secondsX = minutesStartX + 12 * (bubbleSize + bubbleSpacing) + 100;
+    const secondsY = minutesStartY + (5 * (bubbleSize + bubbleSpacing)) / 2 - bubbleSize / 2;
+    
+    p.fill(0);
+    p.noStroke();
+    p.textSize(20);
+    p.textAlign(p.CENTER, p.BOTTOM);
+    p.text("SECONDS", secondsX, secondsY - secondsBubbleSize / 2 - 20);
+    
+    // one seconds bubble
+    p.noFill();
+    p.stroke(0);
+    p.strokeWeight(3);
+    p.circle(secondsX, secondsY, secondsBubbleSize);
     
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
