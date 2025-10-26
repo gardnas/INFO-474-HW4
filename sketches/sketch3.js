@@ -10,7 +10,7 @@ registerSketch('sk3', function (p) {
     const rh = 120;
     const rw = p.width * 0.8; 
     const rx = (p.width - rw) / 2;
-    const ry = (p.height - rh) / 2;
+    const ry = (p.height - rh) / 2 + 60;
 
     // Ruler body 
     p.noStroke();
@@ -21,7 +21,39 @@ registerSketch('sk3', function (p) {
     p.noFill();
     p.stroke(90, 60, 30);
     p.strokeWeight(4);
-    p.rect(rx, ry, rw, rh, 6);
+    p.rect(rx, ry, rw, rh, 2);
+
+    const minutes = 60;
+    p.stroke(40);
+    p.textAlign(p.CENTER, p.BOTTOM);
+    p.fill(30);
+    p.textSize(16);
+
+    for (let i = 0; i <= minutes; i++) {
+      const tx = rx + (i * rw) / minutes;
+      
+      // Every 5 minutes is a larger tick (hour)
+      if (i % 5 === 0) {
+        // hour tick
+        const tickTop = ry;
+        const tickBottom = ry + 40;
+        p.strokeWeight(3);
+        p.line(tx, tickTop, tx, tickBottom);
+        
+        // Hour label above ruler
+        if (i > 0) {
+          p.noStroke();
+          p.text(i / 5, tx, ry - 5);
+          p.stroke(40);
+        }
+      } else {
+        // minute tick (smaller than the hour)
+        const tickTop = ry;
+        const tickBottom = ry + 20;
+        p.strokeWeight(1.5);
+        p.line(tx, tickTop, tx, tickBottom);
+      }
+    }
 
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
