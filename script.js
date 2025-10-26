@@ -30,7 +30,7 @@ const SKETCH_SCRIPT_BY_ID = {
 // 2) or set `window.DEFAULT_SKETCH = 'sk2'` in the page before this script to choose a default
 // 3) otherwise the first tab is used
 
-window.DEFAULT_SKETCH = 'sk2';
+window.DEFAULT_SKETCH = 'sk3';
 function getDefaultButton(buttons) {
     const params = new URLSearchParams(window.location.search);
     const tabParam = params.get('tab') || params.get('sketch');

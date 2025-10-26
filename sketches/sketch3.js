@@ -4,11 +4,25 @@ registerSketch('sk3', function (p) {
     p.createCanvas(p.windowWidth, p.windowHeight);
   };
   p.draw = function () {
-    p.background(240, 200, 200);
-    p.fill(180, 60, 60);
-    p.textSize(32);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.text('HWK #4. B', p.width / 2, p.height / 2);
+    p.background(240);
+
+    // ruler dimensions
+    const rh = 120;
+    const rw = p.width * 0.8; 
+    const rx = (p.width - rw) / 2;
+    const ry = (p.height - rh) / 2;
+
+    // Ruler body 
+    p.noStroke();
+    p.fill(235, 200, 140);
+    p.rect(rx, ry, rw, rh, 6);
+
+    // Ruler border
+    p.noFill();
+    p.stroke(90, 60, 30);
+    p.strokeWeight(4);
+    p.rect(rx, ry, rw, rh, 6);
+
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
