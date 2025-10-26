@@ -55,6 +55,17 @@ registerSketch('sk3', function (p) {
       }
     }
 
+    const currentSecond = p.second();
+    p.stroke(40);
+    p.strokeWeight(1);
+
+    for (let s = 0; s <= currentSecond; s++) {
+      const sx = rx + (s * rw) / 60;
+      const tickTop = ry + rh - 20;
+      const tickBottom = ry + rh;
+      p.line(sx, tickTop, sx, tickBottom);
+    }
+
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
