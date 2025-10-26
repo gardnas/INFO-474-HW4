@@ -66,6 +66,45 @@ registerSketch('sk3', function (p) {
       p.line(sx, tickTop, sx, tickBottom);
     }
 
+    // current time
+    let currentHour = p.hour() % 12;
+    if (currentHour === 0) currentHour = 12;
+    let currentMinute = p.minute();
+
+    const markerY = ry + 50;
+
+    // Blue triangle for hours
+    const hourPos = rx + ((currentHour * 5) * rw) / 60;
+    p.noStroke();
+    p.fill(0, 100, 255, 180);
+    p.triangle(hourPos, markerY - 15, hourPos - 10, markerY + 5, hourPos + 10, markerY + 5);
+
+    // Red triangle for minutes
+    const minutePos = rx + (currentMinute * rw) / 60;
+    p.fill(255, 50, 50, 180);
+    p.triangle(minutePos, markerY - 15, minutePos - 10, markerY + 5, minutePos + 10, markerY + 5);
+
+    // Key
+    const keyX = p.width - 150;
+    const keyY = 30;
+    p.fill(255, 255, 255, 200);
+    p.stroke(100);
+    p.strokeWeight(1);
+    p.rect(keyX - 10, keyY - 10, 140, 70, 4);
+
+    p.noStroke();
+    p.fill(0, 100, 255, 180);
+    p.triangle(keyX + 10, keyY, keyX, keyY + 10, keyX + 20, keyY + 10);
+    p.fill(30);
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(14);
+    p.text("= Hours", keyX + 30, keyY + 5);
+
+    p.fill(255, 50, 50, 180);
+    p.triangle(keyX + 10, keyY + 30, keyX, keyY + 40, keyX + 20, keyY + 40);
+    p.fill(30);
+    p.text("= Minutes", keyX + 30, keyY + 35);
+
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
