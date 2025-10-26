@@ -11,6 +11,10 @@ registerSketch('sk4', function (p) {
     const bubbleSize = 30;
     const bubbleSpacing = 10;
     
+    // Get current time
+    const currentHour = p.hour(); // 0-23
+    const currentMinute = p.minute(); // 0-59
+    
     // hours section
     const hoursStartX = centerX - 250;
     const hoursStartY = centerY - 200;
@@ -65,15 +69,27 @@ registerSketch('sk4', function (p) {
         let x = hoursStartX + col * (bubbleSize + bubbleSpacing) + bubbleSize / 2;
         let y = hoursStartY + row * (bubbleSize + bubbleSpacing);
         
+        let hourNum = row * 6 + col + 1;
+        
+        // Fill bubble if it matches current hour
+        if (hourNum === currentHour + 1) {
+          p.fill(0);
+        } else {
+          p.noFill();
+        }
+        
         // bubbles
-        p.noFill();
         p.stroke(0);
         p.strokeWeight(2);
         p.circle(x, y, bubbleSize);
         
         // labels one to 24
-        let hourNum = row * 6 + col + 1;
-        p.fill(0);
+        // white text to see the labels
+        if (hourNum === currentHour + 1) {
+          p.fill(255);
+        } else {
+          p.fill(0);
+        }
         p.noStroke();
         p.textSize(12);
         p.textAlign(p.CENTER, p.CENTER);
@@ -95,15 +111,27 @@ registerSketch('sk4', function (p) {
         let x = minutesStartX + col * (bubbleSize + bubbleSpacing) + bubbleSize / 2;
         let y = minutesStartY + row * (bubbleSize + bubbleSpacing);
         
+        let minuteNum = row * 12 + col;
+        
+        // Fill bubble if it matches current minute
+        if (minuteNum === currentMinute) {
+          p.fill(0);
+        } else {
+          p.noFill();
+        }
+        
         // minute bubbles
-        p.noFill();
         p.stroke(0);
         p.strokeWeight(2);
         p.circle(x, y, bubbleSize);
         
         // labels 0-59
-        let minuteNum = row * 12 + col;
-        p.fill(0);
+        // white text to see the labels
+        if (minuteNum === currentMinute) {
+          p.fill(255); 
+        } else {
+          p.fill(0);
+        }
         p.noStroke();
         p.textSize(10);
         p.textAlign(p.CENTER, p.CENTER);
