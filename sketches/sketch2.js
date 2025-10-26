@@ -1,53 +1,57 @@
 // Instance-mode sketch for tab 2
 registerSketch('sk2', function (p) {
   p.setup = function () {
-    p.createCanvas(800, 800);
+    p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('Schoolbell'); 
   };
   p.draw = function () {
     p.background(220);
-    // dark green background: https://www.figma.com/colors/dark-green/    
-    // chalkboard
+    const boardWidth = 750;
+    const boardHeight = 450;
+    const boardX = (p.width - boardWidth) / 2;
+    const boardY = (p.height - boardHeight) / 2;
+    
     p.fill(6, 64, 43);
     p.noStroke();
-    p.rect(50,50, 700, 350);
+    p.rect(boardX, boardY, boardWidth, boardHeight);
 
     // brown border
     p.noFill();
     p.strokeWeight(20);
     p.stroke(120, 80, 40);
-    p.rect(50, 50, 700, 350);
+    p.rect(boardX, boardY, boardWidth, boardHeight);
 
     // hours:
     let hour = p.hour();
     p.fill(255);
     p.noStroke();
-    p.textSize(28);
+    p.textSize(32);
     p.textAlign(p.LEFT, p.TOP);
-    p.text("Hour: ", 100, 100);
+    p.text("Hour: ", boardX + 50, boardY + 50);
 
     let minute = p.minute();
     p.fill(255);
     p.noStroke();
-    p.textSize(28);
+    p.textSize(32);
     p.textAlign(p.LEFT, p.TOP);
-    p.text("Minute: ", 100, 200);
+    p.text("Minute: ", boardX + 50, boardY + 170);
 
     let second = p.second();
     p.fill(255);
     p.noStroke();
-    p.textSize(28);
+    p.textSize(32);
     p.textAlign(p.LEFT, p.TOP);
-    p.text("Seconds: ", 100, 300);
+    p.text("Seconds: ", boardX + 50, boardY + 290);
 
-    const ticksXHours = 190;
-    const ticksXMinutes = 210;
-    const ticksXSeconds = 240;
-    drawTallyMarks(p, ticksXHours, 95, hour, { tallyHeight: 36, groupSpacing: 46, tallySpacing: 10, maxGroupsPerRow: 6 });
+    const ticksXHours = boardX + 170;
+    const ticksXMinutes = boardX + 190;
+    const ticksXSeconds = boardX + 220;
+    
+    drawTallyMarks(p, ticksXHours, boardY + 45, hour, { tallyHeight: 40, groupSpacing: 50, tallySpacing: 11, maxGroupsPerRow: 8 });
 
-    drawTallyMarks(p, ticksXMinutes, 202, minute,{ tallyHeight: 24, groupSpacing: 38, tallySpacing: 8, maxGroupsPerRow: 15 });
+    drawTallyMarks(p, ticksXMinutes, boardY + 167, minute, { tallyHeight: 30, groupSpacing: 42, tallySpacing: 9, maxGroupsPerRow: 18 });
 
-    drawTallyMarks(p, ticksXSeconds, 303, second,{ tallyHeight: 20, groupSpacing: 34, tallySpacing: 7, maxGroupsPerRow: 15 });
+    drawTallyMarks(p, ticksXSeconds, boardY + 288, second, { tallyHeight: 26, groupSpacing: 38, tallySpacing: 8, maxGroupsPerRow: 18 });
   };
 
   function drawTallyMarks(p, startX, startY, count, opts) {
