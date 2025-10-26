@@ -14,6 +14,46 @@ registerSketch('sk4', function (p) {
     // hours section
     const hoursStartX = centerX - 250;
     const hoursStartY = centerY - 200;
+    
+    // pencil!!!
+    const pencilX = hoursStartX - 60;
+    const pencilTopY = hoursStartY - 30;
+    const pencilBottomY = centerY + 200;
+    const pencilWidth = 20;
+    
+    // body
+    p.fill(255, 200, 100);
+    p.stroke(0);
+    p.strokeWeight(2);
+    p.rect(pencilX - pencilWidth / 2, pencilTopY + 30, pencilWidth, pencilBottomY - pencilTopY - 30);
+    
+    // tip
+    p.fill(50, 30, 20);
+    p.triangle(
+      pencilX, pencilTopY,
+      pencilX - pencilWidth / 2, pencilTopY + 30,
+      pencilX + pencilWidth / 2, pencilTopY + 30
+    );
+    
+    // lead
+    p.fill(60, 60, 60);
+    p.noStroke();
+    p.triangle(
+      pencilX, pencilTopY + 5,
+      pencilX - pencilWidth / 4, pencilTopY + 20,
+      pencilX + pencilWidth / 4, pencilTopY + 20
+    );
+    
+    // Eraser
+    p.fill(255, 150, 150);
+    p.stroke(0);
+    p.strokeWeight(2);
+    p.rect(pencilX - pencilWidth / 2, pencilBottomY - 40, pencilWidth, 40, 0, 0, 3, 3);
+    
+    // Metal part above eraser
+    p.fill(192, 192, 192);
+    p.rect(pencilX - pencilWidth / 2, pencilBottomY - 45, pencilWidth, 5);
+    
     p.fill(0);
     p.noStroke();
     p.textSize(20);
