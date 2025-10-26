@@ -73,7 +73,8 @@ registerSketch('sk4', function (p) {
         let hourNum = row * 6 + col + 1;
         
         // Fill bubble if it matches current hour
-        if (hourNum === currentHour + 1) {
+        // hourNum goes 1-24 so have to fix off by one error
+        if (hourNum === currentHour || (currentHour === 0 && hourNum === 24)) {
           p.fill(0);
         } else {
           p.noFill();
@@ -86,7 +87,7 @@ registerSketch('sk4', function (p) {
         
         // labels one to 24
         // white text to see the labels
-        if (hourNum === currentHour + 1) {
+        if (hourNum === currentHour || (currentHour === 0 && hourNum === 24)) {
           p.fill(255);
         } else {
           p.fill(0);
