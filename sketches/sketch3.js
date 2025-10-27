@@ -70,24 +70,125 @@ registerSketch('sk3', function (p) {
     let currentHour = p.hour() % 12;
     if (currentHour === 0) currentHour = 12;
     let currentMinute = p.minute();
+    let ampm = p.hour() >= 12 ? 'PM' : 'AM';
 
-    // Measuring bars above the ruler that shrink from right to left
-    const barY = ry - 50;
-    const barHeight = 30;
-    
-    // Blue bar for hours
-    const hourBarStartX = rx + rw;
-    const hourBarWidth = rw * ((12 - currentHour) / 12);
-    p.fill(0, 100, 255, 150);
+    // AM/PM label
+    p.fill(30);
     p.noStroke();
-    p.rect(hourBarStartX - hourBarWidth, barY - 40, hourBarWidth, barHeight, 3);
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(24);
+    p.text(ampm, rx + rw + 20, ry + rh / 2);
+
+    // Pencils
+    const pencilY = ry - 60;
+    const pencilWidth = 20;
+    const maxPencilLength = rw;
     
-    // Red bar for minutes
-    const minuteBarStartX = rx + rw;
-    const minuteBarWidth = rw * ((60 - currentMinute) / 60);
-    p.fill(255, 50, 50, 150);
+    // Blue pencil 
+    const hourPencilLength = maxPencilLength * ((12 - currentHour) / 12);
+    const hourPencilStartX = rx + rw - hourPencilLength;
+    const hourPencilEndX = rx + rw;
+    
+    // Hover effect
+    const isHoverBlue = p.mouseX >= hourPencilStartX && p.mouseX <= hourPencilEndX && 
+                        p.mouseY >= pencilY - 35 && p.mouseY <= pencilY - 35 + pencilWidth;
+    
+    p.push();
+    p.fill(isHoverBlue ? 150 : 100, isHoverBlue ? 200 : 150, 255);
+    p.stroke(0);
+    p.strokeWeight(isHoverBlue ? 3 : 2);
+    p.rect(hourPencilStartX + 20, pencilY - 35, hourPencilLength - 20, pencilWidth, 0, 3, 3, 0);
+    
+    p.fill(50, 30, 20);
+    p.strokeWeight(2);
+    p.triangle(
+      hourPencilStartX, pencilY - 35 + pencilWidth / 2,
+      hourPencilStartX + 20, pencilY - 35,
+      hourPencilStartX + 20, pencilY - 35 + pencilWidth
+    );
+    
+    p.fill(60, 60, 60);
     p.noStroke();
-    p.rect(minuteBarStartX - minuteBarWidth, barY, minuteBarWidth, barHeight, 3);
+    p.triangle(
+      hourPencilStartX + 5, pencilY - 35 + pencilWidth / 2,
+      hourPencilStartX + 15, pencilY - 35 + pencilWidth / 4,
+      hourPencilStartX + 15, pencilY - 35 + 3 * pencilWidth / 4
+    );
+    
+    p.fill(255, 150, 200);
+    p.stroke(0);
+    p.strokeWeight(2);
+    p.rect(hourPencilEndX - 20, pencilY - 35, 20, pencilWidth, 0, 3, 3, 0);
+    
+    p.fill(192, 192, 192);
+    p.rect(hourPencilEndX - 23, pencilY - 35, 3, pencilWidth);
+    p.pop();
+    
+    // Show exact hour for hover effect
+    if (isHoverBlue) {
+      p.fill(255, 255, 200, 230);
+      p.stroke(0);
+      p.strokeWeight(1);
+      p.rect(p.mouseX + 10, p.mouseY - 20, 100, 30, 5);
+      p.fill(0);
+      p.noStroke();
+      p.textAlign(p.LEFT, p.CENTER);
+      p.textSize(14);
+      p.text(`Hour: ${currentHour}`, p.mouseX + 15, p.mouseY - 5);
+    }
+    
+    // Red pencil 
+    const minutePencilLength = maxPencilLength * ((60 - currentMinute) / 60);
+    const minutePencilStartX = rx + rw - minutePencilLength;
+    const minutePencilEndX = rx + rw;
+    
+    // Red pencil hover effect
+    const isHoverRed = p.mouseX >= minutePencilStartX && p.mouseX <= minutePencilEndX && 
+                       p.mouseY >= pencilY && p.mouseY <= pencilY + pencilWidth;
+    
+    p.push();
+    p.fill(255, isHoverRed ? 150 : 100, isHoverRed ? 150 : 100);
+    p.stroke(0);
+    p.strokeWeight(isHoverRed ? 3 : 2);
+    p.rect(minutePencilStartX + 20, pencilY, minutePencilLength - 20, pencilWidth, 0, 3, 3, 0);
+    
+    p.fill(50, 30, 20);
+    p.strokeWeight(2);
+    p.triangle(
+      minutePencilStartX, pencilY + pencilWidth / 2,
+      minutePencilStartX + 20, pencilY,
+      minutePencilStartX + 20, pencilY + pencilWidth
+    );
+    
+    p.fill(60, 60, 60);
+    p.noStroke();
+    p.triangle(
+      minutePencilStartX + 5, pencilY + pencilWidth / 2,
+      minutePencilStartX + 15, pencilY + pencilWidth / 4,
+      minutePencilStartX + 15, pencilY + 3 * pencilWidth / 4
+    );
+    
+    p.fill(255, 150, 200);
+    p.stroke(0);
+    p.strokeWeight(2);
+    p.rect(minutePencilEndX - 20, pencilY, 20, pencilWidth, 0, 3, 3, 0);
+    
+    p.fill(192, 192, 192);
+    p.rect(minutePencilEndX - 23, pencilY, 3, pencilWidth);
+    p.pop();
+    
+    // Show minute if hovering
+    if (isHoverRed) {
+      p.fill(255, 255, 200, 230);
+      p.stroke(0);
+      p.strokeWeight(1);
+      p.rect(p.mouseX + 10, p.mouseY - 20, 120, 30, 5);
+      p.fill(0);
+      p.noStroke();
+      p.textAlign(p.LEFT, p.CENTER);
+      p.textSize(14);
+      p.text(`Minute: ${currentMinute}`, p.mouseX + 15, p.mouseY - 5);
+    }
 
     const markerY = ry + 50;
 
