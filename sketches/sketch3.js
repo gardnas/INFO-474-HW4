@@ -71,6 +71,24 @@ registerSketch('sk3', function (p) {
     if (currentHour === 0) currentHour = 12;
     let currentMinute = p.minute();
 
+    // Measuring bars above the ruler that shrink from right to left
+    const barY = ry - 50; // Position above ruler
+    const barHeight = 30;
+    
+    // Blue bar for hours - starts at 12 (right side) and shrinks left as hour progresses
+    const hourBarStartX = rx + rw; // Start at the right (12 o'clock position)
+    const hourBarWidth = rw * ((12 - currentHour) / 12); // Full at hour 0/12, empty at hour 12
+    p.fill(0, 100, 255, 150);
+    p.noStroke();
+    p.rect(hourBarStartX - hourBarWidth, barY - 40, hourBarWidth, barHeight, 3);
+    
+    // Red bar for minutes - starts at right and shrinks left as minute progresses
+    const minuteBarStartX = rx + rw; // Start at the right
+    const minuteBarWidth = rw * ((60 - currentMinute) / 60); // Full at 0 min, empty at 60 min
+    p.fill(255, 50, 50, 150);
+    p.noStroke();
+    p.rect(minuteBarStartX - minuteBarWidth, barY, minuteBarWidth, barHeight, 3);
+
     const markerY = ry + 50;
 
     // Blue triangle for hours
