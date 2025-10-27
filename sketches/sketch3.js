@@ -1,16 +1,87 @@
 // Instance-mode sketch for tab 3
 registerSketch('sk3', function (p) {
+  let timerActive = false;
+  let timerDuration = 0;
+  let timerStartTime = 0;
+  let timerRemaining = 0;
+  let btn5, btn15, btn30, btnStop;
+
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
   };
+
+  function startTimer(seconds) {
+    timerActive = true;
+    timerDuration = seconds;
+    timerStartTime = p.millis();
+  }
+
+  function stopTimer() {
+    timerActive = false;
+    timerRemaining = 0;
+  }
+
   p.draw = function () {
     p.background(240);
+
+    if (timerActive) {
+      let elapsed = (p.millis() - timerStartTime) / 1000;
+      timerRemaining = timerDuration - elapsed;
+      
+      if (timerRemaining <= 0) {
+        timerActive = false;
+        timerRemaining = 0;
+      }
+    }
 
     // ruler dimensions
     const rh = 120;
     const rw = p.width * 0.8; 
     const rx = (p.width - rw) / 2;
     const ry = (p.height - rh) / 2 + 60;
+
+    if (!btn5) {
+      const buttonY = ry + rh + 100;
+      
+      btn5 = p.createButton('5 min');
+      btn5.position(rx, buttonY);
+      btn5.mousePressed(() => startTimer(5 * 60));
+      btn5.style('padding', '10px 20px');
+      btn5.style('font-size', '14px');
+      btn5.style('margin-right', '10px');
+      btn5.style('background-color', '#90EE90');
+      btn5.style('border', '2px solid #000');
+      btn5.style('cursor', 'pointer');
+      
+      btn15 = p.createButton('15 min');
+      btn15.position(rx + 90, buttonY);
+      btn15.mousePressed(() => startTimer(15 * 60));
+      btn15.style('padding', '10px 20px');
+      btn15.style('font-size', '14px');
+      btn15.style('margin-right', '10px');
+      btn15.style('background-color', '#90EE90');
+      btn15.style('border', '2px solid #000');
+      btn15.style('cursor', 'pointer');
+      
+      btn30 = p.createButton('30 min');
+      btn30.position(rx + 190, buttonY);
+      btn30.mousePressed(() => startTimer(30 * 60));
+      btn30.style('padding', '10px 20px');
+      btn30.style('font-size', '14px');
+      btn30.style('margin-right', '10px');
+      btn30.style('background-color', '#90EE90');
+      btn30.style('border', '2px solid #000');
+      btn30.style('cursor', 'pointer');
+      
+      btnStop = p.createButton('Stop Timer');
+      btnStop.position(rx + 300, buttonY);
+      btnStop.mousePressed(stopTimer);
+      btnStop.style('padding', '10px 20px');
+      btnStop.style('font-size', '14px');
+      btnStop.style('background-color', '#ffcccc');
+      btnStop.style('border', '2px solid #000');
+      btnStop.style('cursor', 'pointer');
+    }
 
     // Ruler body 
     p.noStroke();
@@ -83,6 +154,63 @@ registerSketch('sk3', function (p) {
     const pencilY = ry - 60;
     const pencilWidth = 20;
     const maxPencilLength = rw;
+    
+    // Green timer pencil if active
+    if (timerActive || timerRemaining > 0) {
+      const timerMinutes = timerRemaining / 60;
+      const timerPencilLength = maxPencilLength * (timerMinutes / 60);
+      const timerPencilStartX = rx + rw - timerPencilLength;
+      const timerPencilEndX = rx + rw;
+      const timerPencilY = pencilY - 70;
+      
+      const isHoverGreen = p.mouseX >= timerPencilStartX && p.mouseX <= timerPencilEndX && 
+                           p.mouseY >= timerPencilY && p.mouseY <= timerPencilY + pencilWidth;
+      
+      p.push();
+      p.fill(isHoverGreen ? 150 : 100, isHoverGreen ? 255 : 200, isHoverGreen ? 150 : 100);
+      p.stroke(0);
+      p.strokeWeight(isHoverGreen ? 3 : 2);
+      p.rect(timerPencilStartX + 20, timerPencilY, timerPencilLength - 20, pencilWidth, 0, 3, 3, 0);
+      
+      p.fill(50, 30, 20);
+      p.strokeWeight(2);
+      p.triangle(
+        timerPencilStartX, timerPencilY + pencilWidth / 2,
+        timerPencilStartX + 20, timerPencilY,
+        timerPencilStartX + 20, timerPencilY + pencilWidth
+      );
+      
+      p.fill(60, 60, 60);
+      p.noStroke();
+      p.triangle(
+        timerPencilStartX + 5, timerPencilY + pencilWidth / 2,
+        timerPencilStartX + 15, timerPencilY + pencilWidth / 4,
+        timerPencilStartX + 15, timerPencilY + 3 * pencilWidth / 4
+      );
+      
+      p.fill(255, 150, 200);
+      p.stroke(0);
+      p.strokeWeight(2);
+      p.rect(timerPencilEndX - 20, timerPencilY, 20, pencilWidth, 0, 3, 3, 0);
+      
+      p.fill(192, 192, 192);
+      p.rect(timerPencilEndX - 23, timerPencilY, 3, pencilWidth);
+      p.pop();
+      
+      if (isHoverGreen) {
+        let mins = Math.floor(timerRemaining / 60);
+        let secs = Math.floor(timerRemaining % 60);
+        p.fill(255, 255, 200, 230);
+        p.stroke(0);
+        p.strokeWeight(1);
+        p.rect(p.mouseX + 10, p.mouseY - 20, 140, 30, 5);
+        p.fill(0);
+        p.noStroke();
+        p.textAlign(p.LEFT, p.CENTER);
+        p.textSize(14);
+        p.text(`Timer: ${mins}m ${secs}s`, p.mouseX + 15, p.mouseY - 5);
+      }
+    }
     
     // Blue pencil 
     const hourPencilLength = maxPencilLength * ((12 - currentHour) / 12);
@@ -203,13 +331,22 @@ registerSketch('sk3', function (p) {
     p.fill(255, 50, 50, 180);
     p.triangle(minutePos, markerY - 15, minutePos - 10, markerY + 5, minutePos + 10, markerY + 5);
 
+    // Green triangle for timer (if active)
+    if (timerActive || timerRemaining > 0) {
+      const timerMinutes = timerRemaining / 60;
+      const timerPos = rx + rw - (timerMinutes * rw) / 60;
+      p.noStroke();
+      p.fill(100, 200, 100, 180);
+      p.triangle(timerPos, markerY - 15, timerPos - 10, markerY + 5, timerPos + 10, markerY + 5);
+    }
+
     // Key
     const keyX = p.width - 150;
     const keyY = 30;
     p.fill(255, 255, 255, 200);
     p.stroke(100);
     p.strokeWeight(1);
-    p.rect(keyX - 10, keyY - 10, 140, 70, 4);
+    p.rect(keyX - 10, keyY - 10, 140, 100, 4);
 
     p.noStroke();
     p.fill(0, 100, 255, 180);
@@ -223,6 +360,11 @@ registerSketch('sk3', function (p) {
     p.triangle(keyX + 10, keyY + 30, keyX, keyY + 40, keyX + 20, keyY + 40);
     p.fill(30);
     p.text("= Minutes", keyX + 30, keyY + 35);
+
+    p.fill(100, 200, 100, 180);
+    p.triangle(keyX + 10, keyY + 60, keyX, keyY + 70, keyX + 20, keyY + 70);
+    p.fill(30);
+    p.text("= Timer", keyX + 30, keyY + 65);
 
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
