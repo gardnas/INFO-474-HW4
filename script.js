@@ -23,6 +23,7 @@ const SKETCH_SCRIPT_BY_ID = {
     sk12: 'sketches/sketch12.js',
     sk13: 'sketches/sketch13.js',
     sk14: 'sketches/sketch14.js',
+    sk15: 'sketches/sketch15.js',
 };
 
 // Default sketch selection logic:
@@ -30,7 +31,7 @@ const SKETCH_SCRIPT_BY_ID = {
 // 2) or set `window.DEFAULT_SKETCH = 'sk2'` in the page before this script to choose a default
 // 3) otherwise the first tab is used
 
-window.DEFAULT_SKETCH = 'sk3';
+window.DEFAULT_SKETCH = 'sk15';
 function getDefaultButton(buttons) {
     const params = new URLSearchParams(window.location.search);
     const tabParam = params.get('tab') || params.get('sketch');
