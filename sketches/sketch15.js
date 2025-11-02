@@ -25,6 +25,7 @@ registerSketch('sk15', function (p) {
     p.text("Two Peaks, Two Directions: Fremont's Bridge Daily Bike Flow 2024", 80, 30);
     
     drawAxes();
+    drawAxisLabels();
   };
   
   function computeLayout() {
@@ -70,6 +71,25 @@ registerSketch('sk15', function (p) {
       p.text(h, x, M.top + CHART_H + 8);
       p.stroke(0);
     }
+    
+    p.pop();
+  }
+  
+  function drawAxisLabels() {
+    p.push();
+    p.fill(0);
+    p.noStroke();
+    p.textSize(14);
+    
+    // X-axis label
+    p.textAlign(p.CENTER, p.TOP);
+    p.text('Hour of day (24hr time)', M.left + CHART_W / 2, M.top + CHART_H + 35);
+    
+    // Y-axis label
+    p.translate(M.left - 50, M.top + CHART_H / 2);
+    p.rotate(-p.HALF_PI);
+    p.textAlign(p.CENTER, p.TOP);
+    p.text('Bikes per hour', 0, 0);
     
     p.pop();
   }
