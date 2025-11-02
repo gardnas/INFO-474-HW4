@@ -46,6 +46,7 @@ registerSketch('sk15', function (p) {
     drawDataPoints();
     drawAnnotations();
     drawLegend();
+    drawHoverInteraction();
   };
 
   function computeLayout() {
@@ -283,6 +284,54 @@ registerSketch('sk15', function (p) {
     p.square(boxX - 5, boxY + 24 - 5, 10);
     p.fill(COL_TEXT);
     p.text('Southbound (toward Fremont)', boxX + 18, boxY + 24);
+
+    p.pop();
+  }
+
+  function drawHoverInteraction() {
+    if (!dataReady) return;
+    if (p.mouseX < M.left || p.mouseX > M.left + CHART_W) return;
+    if (p.mouseY < M.top || p.mouseY > M.top + CHART_H) return;
+
+    const t = p.constrain((p.mouseX - M.left) / CHART_W, 0, 1);
+    const hour = Math.round(t * 23);
+    const hoverX = hourToX(hour);
+    const nbVal = nbWeekday[hour];
+    const sbVal = sbWeekday[hour];
+
+    p.push();
+    // vertical guide
+    p.stroke(0, 0, 0, 60);
+    p.strokeWeight(1);
+    p.line(hoverX, M.top, hoverX, M.top + CHART_H);
+
+    p.noStroke();
+    p.fill(COL_NB);
+    p.circle(hoverX, valueToY(nbVal), 12);
+    p.fill(COL_SB);
+    p.square(hoverX - 6, valueToY(sbVal) - 6, 12);
+
+    // tooltip
+    const boxW = 190;
+    const boxH = 80;
+    const boxX = p.constrain(hoverX + 20, M.left, M.left + CHART_W - boxW);
+    const boxY = p.constrain(p.mouseY - boxH / 2, M.top, M.top + CHART_H - boxH);
+
+    p.fill('#FFFFFFEE');
+    p.stroke(COL_GRID);
+    p.rect(boxX, boxY, boxW, boxH, 8);
+
+    p.fill(COL_TEXT);
+    p.noStroke();
+    p.textAlign(p.LEFT, p.TOP);
+    p.textSize(13);
+    p.text(`Hour: ${hour}:00`, boxX + 12, boxY + 10);
+
+    p.fill(COL_NB);
+    p.text(`Northbound: ${Math.round(nbVal)} bikes/hr`, boxX + 12, boxY + 30);
+
+    p.fill(COL_SB);
+    p.text(`Southbound: ${Math.round(sbVal)} bikes/hr`, boxX + 12, boxY + 50);
 
     p.pop();
   }
