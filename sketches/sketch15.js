@@ -35,12 +35,16 @@ registerSketch('sk15', function (p) {
     p.textAlign(p.LEFT, p.TOP);
     p.textSize(24);
     p.text("Two Peaks, Two Directions: Fremont's Bridge Daily Bike Flow 2024", 80, 30);
+    p.textSize(16);
+    p.fill(COL_AXIS);
+    p.text("Weekday hourly averages, Seattle Department of Transportation bike counter", 80, 60);
 
     drawGrid();
     drawAxes();
     drawAxisLabels();
     drawLines();
     drawDataPoints();
+    drawLegend();
   };
 
   function computeLayout() {
@@ -224,6 +228,28 @@ registerSketch('sk15', function (p) {
       p.vertex(hourToX(h), valueToY(sbWeekday[h]));
     }
     p.endShape();
+
+    p.pop();
+  }
+
+  function drawLegend() {
+    const boxX = M.left + CHART_W - 220;
+    const boxY = M.top - 70;
+
+    p.push();
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(13);
+
+    p.fill(COL_NB);
+    p.noStroke();
+    p.circle(boxX, boxY, 10);
+    p.fill(COL_TEXT);
+    p.text('Northbound (toward Seattle)', boxX + 18, boxY);
+
+    p.fill(COL_SB);
+    p.square(boxX - 5, boxY + 24 - 5, 10);
+    p.fill(COL_TEXT);
+    p.text('Southbound (toward Fremont)', boxX + 18, boxY + 24);
 
     p.pop();
   }
