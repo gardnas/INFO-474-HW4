@@ -37,13 +37,14 @@ registerSketch('sk15', function (p) {
     p.text("Two Peaks, Two Directions: Fremont's Bridge Daily Bike Flow 2024", 80, 30);
     p.textSize(16);
     p.fill(COL_AXIS);
-    p.text("Weekday hourly averages, Seattle Department of Transportation bike counter", 80, 60);
+    p.text("Weekday hourly averages, Seattle Department of Transportation Bike Counter on the Fremont Bridge", 80, 60);
 
     drawGrid();
     drawAxes();
     drawAxisLabels();
     drawLines();
     drawDataPoints();
+    drawAnnotations();
     drawLegend();
   };
 
@@ -228,6 +229,38 @@ registerSketch('sk15', function (p) {
       p.vertex(hourToX(h), valueToY(sbWeekday[h]));
     }
     p.endShape();
+
+    p.pop();
+  }
+
+  function drawAnnotations() {
+    const morningHour = 8;
+    const eveningHour = 17;
+
+    const morningX = hourToX(morningHour);
+    const morningY = valueToY(sbWeekday[morningHour]);
+    const eveningX = hourToX(eveningHour);
+    const eveningY = valueToY(nbWeekday[eveningHour]);
+
+    p.push();
+    p.textSize(13);
+    p.fill(COL_TEXT);
+
+    // Southbound peak
+    p.stroke(COL_SB);
+    p.strokeWeight(1.5);
+    p.line(morningX, morningY, morningX - 90, morningY - 60);
+    p.noStroke();
+    p.textAlign(p.RIGHT, p.BOTTOM);
+    p.text("Southbound peak (morning commute)", morningX - 95, morningY - 65);
+
+    // Northbound peak
+    p.stroke(COL_NB);
+    p.strokeWeight(1.5);
+    p.line(eveningX, eveningY, eveningX + 90, eveningY - 60);
+    p.noStroke();
+    p.textAlign(p.LEFT, p.BOTTOM);
+    p.text("Northbound peak (evening commute)", eveningX + 95, eveningY - 65);
 
     p.pop();
   }
