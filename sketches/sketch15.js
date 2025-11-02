@@ -7,15 +7,18 @@ registerSketch('sk15', function (p) {
 
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
+    p.textFont('system-ui, Arial, sans-serif');
   };
 
   p.draw = function () {
     p.background(240);
+    
+    // title
     p.fill(0);
+    p.noStroke();
     p.textAlign(p.LEFT, p.TOP);
-    p.textSize(16);
-    p.text(`Rows: ${data.getRowCount()}`, 50, 50);
-    p.text(`Columns: ${data.getColumnCount()}`, 50, 80);
+    p.textSize(24);
+    p.text("Two Peaks, Two Directions: Fremont's Bridge Daily Bike Flow 2024", 80, 30);
   };
   
   p.windowResized = function () {
