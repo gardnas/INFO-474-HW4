@@ -42,6 +42,9 @@ registerSketch('sk15', function (p) {
     drawGrid();
     drawAxes();
     drawAxisLabels();
+
+    if (!dataReady) return;
+
     drawLines();
     drawDataPoints();
     drawAnnotations();
@@ -213,6 +216,7 @@ registerSketch('sk15', function (p) {
   }
 
   function drawLines() {
+    if (!dataReady) return;
     p.push();
     p.strokeWeight(3);
     p.noFill();
